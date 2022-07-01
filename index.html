@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Roboto&family=Shizuru&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>Phầm mềm giám sát độ ẩm đất</title>
+</head>
+
+    <style>
+:root {
+    --circle : #02ddff;
+    /* --circle : #04fc43; */
+    --numCircle2:817;
+    --num:15;
+    --fixDot:45%;
+    --timer:0.8s;
+    --color-text: rgb(25, 25, 25);
+    --color-box:rgba(255, 255, 255, 0.8);
+}
+*{
+    margin:0;
+    padding:0;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+}
+
+body{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color:rgba(220, 220, 220, 0.7);
+    margin-top: 40px;
+}
+
+.container{
+    position: relative;
+
+}
+.container .title_timer{
+    color: var(--color-text);
+    top: 110px;
+    right: 50%;
+    transform: translateX(50%);
+    position: absolute;
+    align-items: center;
+    z-index: 2;
+}
+
+.container .card{
+    position: relative;
+    width: 440px;
+    height: 500px;
+    background-color: #2a2a2a;
+    background-color: var(--color-box);
+    box-shadow: 1px 1px 7px #555;
+    margin-top:100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius:15px;
+}
+
+.container .card .percent{
+
+    position: relative;
+    width: 300px;
+    height: 300px;
+}
+
+.container .card .percent svg{
+    position: relative;
+    width: 300px;
+    height: 300px;
+    transform: rotate(270deg);
+}
+.container .card .percent svg circle{
+    width: 100%;
+    height: 100%;
+    fill: transparent;
+    stroke-width: 2px;
+    stroke:rgba(50, 50, 50, 0.9);
+    /* transform: translate(5px,5px); */
+}
+.container .card .percent svg circle:nth-child(2){
+    stroke:var(--circle);
+    stroke-dasharray: var(--numCircle2);
+    stroke-dashoffset: calc( var(--numCircle2) - (var(--numCircle2) * var(--num))/100);
+    opacity: 0;
+    animation: fadeIn 0.8s linear forwards;
+    animation-delay:0.8s;
+}
+
+@keyframes fadeIn{
+    0%{
+     opacity:0
+     }
+    100%{
+    opacity:1
+    }
+}
+.dot{
+    position:absolute;
+    inset: 5px;
+    z-index: 10;
+    transform:rotate(calc(3.6deg * var(--num)));
+    animation: animateDot 1s linear forwards;
+}
+
+@keyframes animateDot {
+    0%{
+        transform:rotate(0deg);
+    }
+    100%{
+        transform:rotate(calc(3.6deg * var(--num)));
+    }
+}
+ 
+.dot::before{
+    position:absolute;
+    content:'';
+    width: 15px;
+    height: 15px;
+    top: 8px;
+    left: var(--fixDot);
+    border-radius: 50%;
+    transform: translateX(var(--fixDot));
+    background-color: var(--circle);
+    box-shadow: 0 0 10px var(--circle), 0 0 30px var(--circle);
+}
+
+
+.number{
+    position:absolute;
+    inset:0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    opacity: 0;
+    animation: fadeIn 0.2s linear forwards;
+    animation-delay:0.2s;
+    color:var(--color-text);
+}
+.number h2{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* color:#fff; */
+    font-size: 3em;
+}
+
+.number h2 span{
+    font-weight: 300;
+    /* color:#fff; */
+    font-size: 0.6em
+}
+.number p{
+    font-weight: 300;
+    font-size: 1em;
+    /* color:#fff; */
+    letter-spacing:1px;
+    text-transform:uppercase;
+}
+
+.box_fan{
+    /* position:absolute;
+    top: 100px;
+    right: -250px; */
+    width: 200px;
+    height: 70px;
+    /* background-color: rgb(42, 41, 41); */
+    display: flex;
+    border-radius: 15px;
+    justify-content: space-around;
+    align-items: center;
+    /* cursor: pointer; */
+    z-index: 10;
+    background-color: var(--color-box);
+    box-shadow: 1px 1px 7px #555;
+}
+.box_fan .title_fan{
+    font-size: 18px;
+    color:rgb(120, 120, 120);
+    text-transform: uppercase;
+
+}
+.box_fan .icon-engine{
+    width: 30px;
+    height: 30px;
+}
+.box_fan .icon-engine img{
+    width: 100%;    
+    height: 100%;
+    object-fit: cover;
+    animation: animatePump 1s linear forwards;
+    color:#fff;
+
+}
+
+@keyframes animatePump {
+    0%{
+        width: 90%;    
+        height: 90%;
+    }
+    25%{
+        width: 92%;    
+        height: 92%;
+    }
+    50%{
+        width: 94%;    
+        height: 94%;
+    }
+    75%{
+        width: 96%;    
+        height: 96%;
+    }
+    100%{
+        width: 100%;    
+        height: 100%;
+    }
+}
+
+.box_control{
+    display: flex;
+    position:absolute;
+    top: 100px;
+    right: -520px;
+    width: 500px;
+    /* background-color:#000; */
+    justify-content:space-around;
+}
+.state_pump{
+    display: flex;
+    align-items:center;
+    justify-content:center;
+    width: 70px;
+    height: 70px;
+    border-radius: 150px;
+    /* background-color: #ce1b1b; */
+    /* color: #fff; */
+    color:#000;
+    box-shadow:1px 1px 7px #555;
+    transition: all 0.6s linear;
+}
+
+.btn_list{
+    width: 200px;
+    height: 70px;
+    /* background-color: rgb(42, 41, 41); */
+    display: flex;
+    border-radius: 15px;
+    justify-content: space-around;
+    align-items: center;
+    cursor: pointer;
+    z-index: 10;
+    background-color: var(--color-box);
+    box-shadow: 1px 1px 7px #555;
+}
+.btn_list .title_list{
+    font-size: 18px;
+    color:rgb(120, 120, 120);
+    text-transform: uppercase;
+
+}
+
+.btn_list .icon_save i{
+    color: var(--color-text);
+}
+
+.list_data{
+
+    position: absolute;
+    top:72px;
+    width: 160px;
+    height: auto;
+    background-color:rgba(255, 255, 255, 0.6);
+    border-radius:12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    overflow: hidden;
+    transition: all 1s linear;
+}
+
+.list_data li{
+    list-style-type: none;
+    border-top: 0.5px solid rgba(255, 255, 255, 0.5);
+    border-right: 20px solid transparent;
+    border-left: 20px solid transparent;
+    color:rgb(120, 120, 120);
+    padding-top: 5px;
+}
+.list_data li:nth-child(1){
+    border-top: none;
+}
+
+ .switch {
+  width: 50px;
+  height: 25px;
+  cursor: pointer;
+  /* position: relative; */
+  /* background-color: #02ddff; */
+  border-radius: 20px;
+  box-shadow: 0 0 4px #4d4d4dc2;
+  transform: scale(1.2);
+  /* position:absolute; */
+  /* top: 200px;
+  right: -110px; */
+}
+ .switch:hover {
+  opacity: 0.7;
+}
+ .switch:active {
+  -webkit-transform: translateX(2px);
+  transform: translateX(2px);
+}
+ .switch .bi {
+  position: absolute;
+  margin: 0px 2px;
+  top: 50%;
+  right: 0;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: #fff;
+  transform: translateY(-50%);
+  box-shadow: -1px 2px 4px 0 rgba(0, 35, 11, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.moon{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+
+ .switch .icon {
+  font-size: 16px;
+}
+ .switch .icon.sun {
+  position: absolute;
+  top: 54%;
+  left: 0;
+  transform: translateY(-50%);
+  padding-left: 5px;
+}
+ .switch .icon.moon {
+  position: absolute;
+  top: 54%;
+  right: 0;
+  transform: translateY(-50%);
+  padding-right: 2.5px;
+}
+.slideBi {
+  left: 0;
+}
+
+.box_chart{
+    width: 400px;
+    height:600px;
+    position: relative;
+}
+.chart_data{
+    position: absolute;
+    width: 100%;
+    bottom: -40px;
+    padding:10px 10px;
+    border-radius: 12px;
+    background-color:rgba(204, 204, 204, 0.6);
+    margin-left: 40px;
+    margin-bottom: 40px;
+}
+
+.hideList{
+    max-height: 0px;
+}
+.hide{
+    display: none;
+}
+
+.header{
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 90px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    
+}
+.header .logoSchool{
+    width:200px;
+    height: 80px;
+    letter-spacing: 1px;
+    font-size: 60px;
+    font-weight:1200;
+    color:#bd1717;
+    margin-left: 40px;
+    text-shadow: 3px 3px rgba(189, 23, 23, 0.7);
+}
+
+.header .logoSchool img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.header .title_header{
+    width: 60%;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content:center;
+}
+.header .title_header p{
+    font-weight: bold;
+    font-size: 40px;
+    text-transform: uppercase;
+}
+
+.header .logoPhysical{
+    width:200px;
+    height: 80px;
+    margin-right: 40px;
+}
+.header .logoPhysical img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.title_chart{
+    position: absolute;
+    top: 333px;
+    left: 213px;
+    z-index: 3;
+}
+
+
+    </style>
+
+<body onload="UpdateData()">
+    <header class="header">
+        <div class="logoSchool">HUST</div>
+        <div class="title_header"><p>Phần mềm giám sát độ ẩm đất</p></div>
+        <div class="logoPhysical"><img src="https://sep.hust.edu.vn/wp-content/uploads/Logo-SEP-e1592583941664.png" alt=""></div>
+    </header>
+    <div class="container">
+        <div class="title_timer">
+            27/6/2022
+        </div>
+        <div class="card">
+            <div class="percent">
+                <div class="dot"></div>
+                <svg>
+                    <circle cx="150" cy="150" r="130"></circle>
+                    <circle cx="150" cy="150" r="130"></circle>
+                </svg>
+
+                <div class="number">
+                    <h2 class="humi">85 <span>%</span> </h2>
+                    <p>Độ ẩm</p>
+                </div>
+            </div>
+        </div>
+        <div class="box_control">
+            <div class="btn_list">
+                <span class="title_list">
+                    Lưu trữ
+                </span>
+                <div class="icon_save"><i class="fa-solid fa-list"></i></div>
+                <div class="list_data hideList"></div>
+            </div>
+
+            <div class="box_fan">
+                <span class="title_fan">
+                        Động cơ
+                </span>
+    
+                <!-- button pump -->
+                <div class="navbar__control__btnLight switch">
+                    <span class="bi slideBi"><span class="icon moon"> <i class="fa-solid fa-fan " style="--fa-animation-duration: 0.8s;"></i></span>  </span>
+                </div>
+            </div>
+    
+
+            <div class="state_pump">
+                <span class="title_state">OFF</span>
+            </div>
+        </div>
+
+    </div>
+    <div class="box_chart">
+        <div class="title_chart"></div>
+        <div class="chart_data">
+            <div id="myChart" style="width:100%"></div>
+        </div>
+
+    </div>
+
+
+    
+</body>
+<!-- --------------------- -->
+
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+<script>
+    const r = document.querySelector(':root')
+    const cardDOM = document.querySelector(".card")
+    const btnTurnOn = document.querySelector(".switch")
+    const bi = document.querySelector(".bi")
+    const iconFan = document.querySelector(".fa-fan")
+    const listData = document.querySelector(".list_data")
+    const btnList = document.querySelector(".btn_list")
+    const state_pump = document.querySelector(".state_pump")
+
+    const arrKeyData=[]
+    const arrData =[]
+    const arrTimer =[]
+    var today = new Date().toLocaleString().substr(10,19)
+    var intervalID;
+
+    function myFunction_set(humi) {
+         r.style.setProperty('--num',humi);
+    }
+
+// get data :
+    function UpdateData(){
+   var xhttp = new XMLHttpRequest(); //Tạo một đối tượng XMLHttpRequest
+   xhttp.onreadystatechange=function(){
+       //nếu data từ esp32 gửi về thì:
+    if (xhttp.readyState==4 && xhttp.status==200){ // xhttp.readyState:trạng thái của XMLHttpRequest  |  xhttp.status : Trả về trạng thái của yêu cầu
+            var dataVDK = xhttp.responseText;  // dữ liệu trả về , dạng chuỗi
+            var str=JSON.parse(dataVDK);
+            // console.log(str);
+            myFunction_set(str.do_am);
+
+            cardDOM.innerHTML = `
+                <div class="percent">
+                        <div class="dot"></div>
+                        <svg>
+                            <circle cx="150" cy="150" r="130"></circle>
+                            <circle cx="150" cy="150" r="130"></circle>
+                        </svg>
+
+                        <div class="number">
+                            <h2 class="humi"> ${str.do_am}<span>%</span> </h2>
+                            <p>Độ ẩm</p>
+                        </div>
+                    </div>
+                     `
+
+
+       }
+   }
+   xhttp.open('GET','/update',true); // mở cổng vs phương thức get, router /update , true : bất đồng bộ
+   xhttp.send();  
+   setTimeout(function(){UpdateData()},1000);
+   console.log("update...");
+   
+}
+renderListData();
+console.log(document.querySelector(".title_chart"));
+function firstChar(){
+    chartBar("#myChart",localStorage.getItem(today).split(","),localStorage.getItem(`timer${today}`).split(","))
+    document.querySelector(".title_chart").innerHTML=today   
+}
+
+// fake data random:
+    setInterval(()=>{
+        const random = Math.floor(Math.random()*40)+20
+        myFunction_set(random);
+
+        cardDOM.innerHTML = `
+        <div class="percent">
+                <div class="dot"></div>
+                <svg>
+                    <circle cx="150" cy="150" r="130"></circle>
+                    <circle cx="150" cy="150" r="130"></circle>
+                </svg>
+
+                <div class="number">
+                    <h2 class="humi">${random} <span>%</span> </h2>
+                    <p>Độ ẩm</p>
+                </div>
+            </div>
+        `
+        // thêm data vào localStorage:
+        arrData.push(random)
+        let time = new Date().toLocaleString().substr(6,2)
+        arrTimer.push(time)
+        localStorage.setItem(today, [...arrData]);
+        localStorage.setItem(`timer${today}`, [...arrTimer]);
+    },3000)
+    
+
+    setInterval(function(){ document.querySelector(".title_timer").innerHTML =(new Date().toLocaleString())},1000)
+
+function renderListData(){
+    var str = "";
+    for ( var i = 0, len = localStorage.length; i < len; ++i ) {
+        if(!localStorage.key( i ).includes("timer")){
+            str+=   `<li class="item-day">${localStorage.key( i )}</li>`
+        }
+        }
+        listData.innerHTML = str
+}
+    // console.log((new Date().toLocaleString()).substr(10,19));
+
+    firstChar();
+
+    var isRun =false;
+    // click btn pump:
+    btnTurnOn.onclick=function(){
+        isRun=!isRun;
+        console.log(isRun);
+            if (isRun==false){
+                bi.classList.toggle("slideBi")
+                iconFan.classList.remove("fa-spin")
+                state_pump.innerHTML = "OFF"
+                state_pump.style.backgroundColor ='rgba(220, 220, 220, 0.7)'
+                
+            }
+            if (isRun==true){
+                btnTurnOn.style.backgroundColor=`#02ddff`
+                bi.classList.toggle("slideBi")
+                iconFan.classList.add("fa-spin")
+                state_pump.innerHTML = "ON"
+                state_pump.style.backgroundColor ='#ce1b1b'
+            }
+        }
+
+    // btn list 
+    btnList.onclick=(e)=>{
+        console.log(1);
+        if(e.target.className=="btn_list" || e.target.className=="title_list"){
+            listData.classList.toggle("hideList")
+        }
+    }
+
+    //click list day:
+    
+        intervalID=setInterval(()=>{
+            document.querySelector(".chart_data").innerHTML=`<div id="myChart" style="width:100%"></div>`
+            firstChar()
+        },6000)
+            
+
+    const listDay = document.querySelectorAll(".item-day")
+    listDay.forEach((day,index)=>{
+        day.onclick=(e)=>{
+            e.stopPropagation();
+            console.log(day.textContent);
+            if(e.target.className=="item-day" || e.target.className=="list_data"){
+                if(day.textContent==today){
+                    document.querySelector("#myChart").innerHTML=""
+                    chartBar("#myChart",localStorage.getItem(day.textContent).split(","),localStorage.getItem(`timer${day.textContent}`).split(","));
+                    document.querySelector(".box_chart").classList.remove("hide")
+                    // update 
+                    document.querySelector(".title_chart").innerHTML=day.textContent
+                    intervalID=setInterval(()=>{
+                    document.querySelector(".chart_data").innerHTML=`<div id="myChart" style="width:100%"></div>`
+                    firstChar()
+                },6000)
+                }else{
+                    clearInterval(intervalID)
+                    document.querySelector("#myChart").innerHTML=""
+                    chartBar("#myChart",localStorage.getItem(day.textContent).split(","),localStorage.getItem(`timer${day.textContent}`).split(","));
+                    //
+                    document.querySelector(".title_chart").innerHTML=day.textContent
+                    document.querySelector(".box_chart").classList.remove("hide")
+                }
+            }
+        }
+    })
+
+
+
+
+// chart bar :
+        function chartBar(idChart,data,time){
+        var options = {
+        chart: {
+          type: 'bar'
+        },
+        series: [{
+          name: 'độ ẩm',
+          data: data
+        }],
+      yaxis: {
+        title: {
+          text: "Độ ẩm(%)",
+          rotate: -90,
+          offsetX: 0,
+          offsetY: 0,
+          style: {
+              color: undefined,
+              fontSize: '12px',
+              fontFamily: 'Helvetica, Arial, sans-serif',
+              fontWeight: 600,
+              cssClass: 'apexcharts-yaxis-title',
+          },
+      },
+      },
+        xaxis: {
+          categories: time,
+                  title: {
+          text: "giây",
+          offsetX: 0,
+          offsetY: 0,
+          style: {
+              color: undefined,
+              fontSize: '12px',
+              fontFamily: 'Helvetica, Arial, sans-serif',
+              fontWeight: 600,
+              cssClass: 'apexcharts-xaxis-title',
+          },
+      },
+        }
+      }
+      
+      var chart = new ApexCharts(document.querySelector(idChart), options);
+
+      chart.render();
+      }
+</script>
+</html>
