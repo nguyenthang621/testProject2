@@ -7,8 +7,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Roboto&family=Shizuru&display=swap" rel="stylesheet">
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="css.css">
     <title>Phầm mềm giám sát độ ẩm đất</title>
 </head>
 
@@ -34,7 +34,7 @@ body{
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color:rgba(220, 220, 220, 0.7);
+    /* background-color:rgba(220, 220, 220, 0.7); */
     margin-top: 40px;
 }
 
@@ -83,7 +83,7 @@ body{
     width: 100%;
     height: 100%;
     fill: transparent;
-    stroke-width: 2px;
+    stroke-width: 3px;
     stroke:rgba(50, 50, 50, 0.9);
     /* transform: translate(5px,5px); */
 }
@@ -378,6 +378,10 @@ body{
     background-color:rgba(204, 204, 204, 0.6);
     margin-left: 40px;
     margin-bottom: 40px;
+    height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .hideList{
@@ -439,19 +443,206 @@ body{
 }
 .title_chart{
     position: absolute;
-    top: 333px;
+    top: 310px;
     left: 213px;
     z-index: 3;
 }
+
+/*# css toast */
+
+@keyframes slideToLeft {
+  0% {
+    transform: translateX(100%);
+  }
+  40% {
+    transform: translateX(-15%);
+  }
+  80% {
+    transform: translateX(5%);
+  }
+  100% {
+    transform: translateX(-10px);
+  }
+}
+@keyframes fade {
+  0% {
+    transform: translateX(-10px);
+  }
+  40% {
+    transform: translateX(0%);
+  }
+  80% {
+    transform: translateX(-10%);
+  }
+  100% {
+    transform: translateX(120%);
+  }
+}
+@keyframes borderBar {
+  to {
+    width: 0;
+  }
+}
+body {
+  background-color: #f9f9f9;
+  font-family: "Roboto", sans-serif;
+}
+body #toast {
+  position: fixed;
+  top: 16px;
+  right: 32px;
+  z-index: 9999;
+}
+
+.toast {
+  display: flex;
+  margin: 0 auto;
+  align-items: center;
+  border-radius: 2px;
+  background-color: #fff;
+  border-bottom: 4px solid;
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.09);
+  position: relative;
+  margin-top: 20px;
+  min-width: 450px;
+  max-width: 460px;
+  animation: slideToLeft 3s ease forwards;
+}
+.toast .toast__icon {
+  margin: 20px;
+  font-size: 44px;
+  padding: 20px;
+  border-right: 1px solid #ccc;
+}
+.toast .toast__body .toast__title {
+  font-size: 20px;
+  font-weight: 600;
+}
+.toast .toast__body .toast__messege {
+  letter-spacing: 0.8px;
+  font-size: 14px;
+  color: #4b4b4b;
+}
+.toast .toast__close {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 10px;
+  font-size: 20px;
+  cursor: pointer;
+  color: #777777;
+}
+.toast.toast__success {
+  border-bottom-color: rgba(0, 204, 105, 0.2);
+}
+.toast.toast__success::after {
+  content: "";
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background-color: #00cc69;
+  animation: borderBar ease 5s 0.4s forwards;
+}
+.toast.toast__success .toast__icon i {
+  color: #00cc69;
+}
+.toast.toast__check {
+  border-bottom-color: rgba(0, 102, 255, 0.2);
+}
+.toast.toast__check::after {
+  content: "";
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background-color: #0068ff;
+  animation: borderBar ease 5s 0.4s forwards;
+}
+.toast.toast__check .toast__icon i {
+  color: #0068ff;
+}
+.toast.toast__error {
+  border-bottom-color: rgba(254, 52, 89, 0.2);
+}
+.toast.toast__error::after {
+  content: "";
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background-color: #fe355a;
+  animation: borderBar ease 5s 0.4s forwards;
+}
+.toast.toast__error .toast__icon i {
+  color: #fe355a;
+}
+.toast.toast__warning {
+  border-bottom-color: rgba(172, 192, 57, 0.2);
+}
+.toast.toast__warning::after {
+  content: "";
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background-color: #eea650;
+  animation: borderBar ease 5s 0.4s forwards;
+}
+.toast.toast__warning .toast__icon i {
+  color: #eea650;
+}
+
+.btn {
+  margin: 300px auto;
+  display: flex;
+  align-items: center;
+  margin-left: 200px;
+}
+.btn .button {
+  padding: 20px;
+  display: inline-block;
+  border-radius: 12px;
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+  opacity: 0.9;
+  margin-left: 20px;
+}
+.btn .button:hover {
+  opacity: 1;
+}
+.btn .btn-error {
+  background-color: #fe355a;
+}
+.btn .btn-success {
+  background-color: #00cc69;
+}
+.btn .btn-check {
+  background-color: #0068ff;
+}
+.btn .btn-warning {
+  background-color: #adc23a;
+}
+
+/*# sourceMappingURL=css.css.map */
+
 
 
     </style>
 
 <body onload="UpdateData()">
+    
+    <div id="toast"></div>
     <header class="header">
         <div class="logoSchool">HUST</div>
         <div class="title_header"><p>Phần mềm giám sát độ ẩm đất</p></div>
         <div class="logoPhysical"><img src="https://sep.hust.edu.vn/wp-content/uploads/Logo-SEP-e1592583941664.png" alt=""></div>
+        <!-- <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'> -->
     </header>
     <div class="container">
         <div class="title_timer">
@@ -472,7 +663,7 @@ body{
             </div>
         </div>
         <div class="box_control">
-            <div class="btn_list">
+            <div title="Lưu trữ dữ liệu" class="btn_list">
                 <span class="title_list">
                     Lưu trữ
                 </span>
@@ -480,7 +671,7 @@ body{
                 <div class="list_data hideList"></div>
             </div>
 
-            <div class="box_fan">
+            <div title="Nút bật/tắt động cơ" class="box_fan">
                 <span class="title_fan">
                         Động cơ
                 </span>
@@ -492,7 +683,7 @@ body{
             </div>
     
 
-            <div class="state_pump">
+            <div title="Trạng thái động cơ" class="state_pump">
                 <span class="title_state">OFF</span>
             </div>
         </div>
@@ -513,6 +704,7 @@ body{
 
 <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 <script>
+    const $ =document.querySelector.bind(document)  
     const r = document.querySelector(':root')
     const cardDOM = document.querySelector(".card")
     const btnTurnOn = document.querySelector(".switch")
@@ -527,7 +719,50 @@ body{
     const arrTimer =[]
     var today = new Date().toLocaleString().substr(10,19)
     var intervalID;
+    const timeUpdate =6000;
+    var currentDay = today;
+    var isRun =false;
+    var dataVDK;
 
+    const showToastPumpON=()=>{
+        toast({  
+        type:"error",
+        title:"Độ ẩm đất thấp",
+        message:"Tự động bật máy bơm",
+        duration:3000
+        });
+    }
+    const showToastPumpOFF=()=>{
+        toast({  
+        type:"check",
+        title:"Độ ẩm đất cao",
+        message:"Tự động ngắt máy bơm",
+        duration:3000
+        });
+    }
+
+    const turnOnPump=()=>{
+        if(isRun==false){
+            btnTurnOn.click();
+        }
+    }
+    const turnOFFPump=()=>{
+        if(isRun==true){
+            btnTurnOn.click();
+        }
+    }
+
+    const checkToast=(data,valueCompare)=>{
+        if(data>valueCompare  && isRun==true){
+            showToastPumpOFF();
+            turnOFFPump();
+        }
+        if(data<=valueCompare  && isRun==false){
+            showToastPumpON();
+            turnOnPump();
+        }
+    }
+// function set % in css
     function myFunction_set(humi) {
          r.style.setProperty('--num',humi);
     }
@@ -576,8 +811,9 @@ function firstChar(){
 
 // fake data random:
     setInterval(()=>{
-        const random = Math.floor(Math.random()*40)+20
+        const random = Math.floor(Math.random()*40)+30
         myFunction_set(random);
+        checkToast(random,60);
 
         cardDOM.innerHTML = `
         <div class="percent">
@@ -599,11 +835,12 @@ function firstChar(){
         arrTimer.push(time)
         localStorage.setItem(today, [...arrData]);
         localStorage.setItem(`timer${today}`, [...arrTimer]);
-    },3000)
+    },5000)
     
-
+    // time current:
     setInterval(function(){ document.querySelector(".title_timer").innerHTML =(new Date().toLocaleString())},1000)
 
+    // render list data localStorage
 function renderListData(){
     var str = "";
     for ( var i = 0, len = localStorage.length; i < len; ++i ) {
@@ -613,11 +850,13 @@ function renderListData(){
         }
         listData.innerHTML = str
 }
-    // console.log((new Date().toLocaleString()).substr(10,19));
 
-    firstChar();
 
-    var isRun =false;
+
+    // draw chart first
+    setTimeout(()=>{ firstChar()},3001)
+
+
     // click btn pump:
     btnTurnOn.onclick=function(){
         isRun=!isRun;
@@ -625,6 +864,7 @@ function renderListData(){
             if (isRun==false){
                 bi.classList.toggle("slideBi")
                 iconFan.classList.remove("fa-spin")
+                btnTurnOn.style.backgroundColor=``
                 state_pump.innerHTML = "OFF"
                 state_pump.style.backgroundColor ='rgba(220, 220, 220, 0.7)'
                 
@@ -640,18 +880,16 @@ function renderListData(){
 
     // btn list 
     btnList.onclick=(e)=>{
-        console.log(1);
-        if(e.target.className=="btn_list" || e.target.className=="title_list"){
+        if(e.target.className=="btn_list" || e.target.className=="title_list" || e.target.className=="fa-solid fa-list"){
             listData.classList.toggle("hideList")
         }
     }
 
     //click list day:
-    
         intervalID=setInterval(()=>{
             document.querySelector(".chart_data").innerHTML=`<div id="myChart" style="width:100%"></div>`
             firstChar()
-        },6000)
+        },timeUpdate)
             
 
     const listDay = document.querySelectorAll(".item-day")
@@ -666,11 +904,17 @@ function renderListData(){
                     document.querySelector(".box_chart").classList.remove("hide")
                     // update 
                     document.querySelector(".title_chart").innerHTML=day.textContent
-                    intervalID=setInterval(()=>{
-                    document.querySelector(".chart_data").innerHTML=`<div id="myChart" style="width:100%"></div>`
-                    firstChar()
-                },6000)
+                    //intervalID
+                    if(currentDay!=today){
+                        intervalID=setInterval(()=>{
+                            document.querySelector(".chart_data").innerHTML=`<div id="myChart" style="width:100%"></div>`
+                            firstChar()
+                        },timeUpdate)
+
+                    }
+                    currentDay = day.textContent
                 }else{
+                    currentDay = day.textContent
                     clearInterval(intervalID)
                     document.querySelector("#myChart").innerHTML=""
                     chartBar("#myChart",localStorage.getItem(day.textContent).split(","),localStorage.getItem(`timer${day.textContent}`).split(","));
@@ -731,5 +975,58 @@ function renderListData(){
 
       chart.render();
       }
+
+
+// Toast ::
+
+function toast({type='success',title='',message='',duration=1000}){
+    const mainToast =$("#toast")
+
+    const icons={
+        success:"<i class='bx bxs-smile' ></i>",
+        check:'<i class="fa-solid fa-droplet-slash"></i>',
+        error:'<i class="fa-solid fa-droplet"></i>',
+        warning:"<i class='bx bxs-error' ></i>"
+    }
+    if (mainToast){
+        const toast = document.createElement('div')
+        // auto remove toast:
+        const autoRemoveId= setTimeout(function(){
+            mainToast.removeChild(toast);
+        },duration+1000);
+        //remove toast when clicked:
+        toast.onclick=function(e){
+            if (e.target.closest(".toast__close")){
+                mainToast.removeChild(toast);
+                clearTimeout(autoRemoveId);
+            }
+        }
+        const icon=icons[type]
+        const delay=  duration / 1000
+        toast.classList.add('toast',`toast__${type}`)
+        toast.style.animation = `slideToLeft ease 0.5s, fade linear 1s ${delay}s forwards`
+        toast.innerHTML = `           
+            <div class="toast__icon">
+                ${icon}
+            </div>
+            <div class="toast__body">
+                <h3 class="toast__title">${title}</h3>
+                <p class="toast__messege">${message}</p>
+            </div>
+            <div class="toast__close">
+                <i class='bx bx-x'></i>
+            </div>
+            `;
+            mainToast.appendChild(toast);
+ 
+    }
+}
+
+
+
+
+
+
+
 </script>
 </html>
