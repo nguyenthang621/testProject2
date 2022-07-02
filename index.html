@@ -21,7 +21,7 @@
     --fixDot:45%;
     --timer:0.8s;
     --color-text: rgb(25, 25, 25);
-    --color-box:rgba(255, 255, 255, 0.8);
+    --color-box:rgba(255, 255, 255);
 }
 *{
     margin:0;
@@ -36,8 +36,21 @@ body{
     justify-content: center;
     /* background-color:rgba(220, 220, 220, 0.7); */
     margin-top: 40px;
+    position: relative;
 }
 
+.background{
+  background-image: url("https://vcdn-vnexpress.vnecdn.net/2021/10/14/BKphoto-edit-Final-8691-1634193916.jpg");  
+  background-color: #cccccc;
+  background-position: center; 
+  background-repeat: no-repeat; 
+  background-size: cover;
+  position: absolute;
+  top:-40px;
+  min-height: 100vh;
+    width: 100%;
+    object-fit: cover;
+}
 .container{
     position: relative;
 
@@ -84,7 +97,7 @@ body{
     height: 100%;
     fill: transparent;
     stroke-width: 3px;
-    stroke:rgba(50, 50, 50, 0.9);
+    stroke:rgba(50, 50, 50, 0.8 );
     /* transform: translate(5px,5px); */
 }
 .container .card .percent svg circle:nth-child(2){
@@ -375,7 +388,7 @@ body{
     bottom: -40px;
     padding:10px 10px;
     border-radius: 12px;
-    background-color:rgba(204, 204, 204, 0.6);
+    background-color:rgba(204, 204, 204, 0.9);
     margin-left: 40px;
     margin-bottom: 40px;
     height: 300px;
@@ -636,7 +649,7 @@ body #toast {
     </style>
 
 <body onload="UpdateData()">
-    
+    <div class="background"></div>
     <div id="toast"></div>
     <header class="header">
         <div class="logoSchool">HUST</div>
